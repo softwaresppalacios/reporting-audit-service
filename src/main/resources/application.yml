@@ -22,3 +22,6 @@ clients:
   sql:
     init:
       mode: always
+services:
+  tenant-management:
+    base-url: ${TENANT_SERVICE_URL:http://localhost:8081/api}
