@@ -23,6 +23,13 @@ public class ParkingOperationClient {
       .body(ParkingSummary.class);
   }
 
-  public record ParkingSummary(long activeTickets, long occupiedSpaces, long availableSpaces) {}
+  public record ParkingSummary(
+    long activeTickets,
+    long occupiedSpaces,
+    long availableSpaces,
+    long carOccupiedSpaces,
+    long carAvailableSpaces,
+    long motorcycleOccupiedSpaces,
+    long motorcycleAvailableSpaces
+  ) {}
 }
-
