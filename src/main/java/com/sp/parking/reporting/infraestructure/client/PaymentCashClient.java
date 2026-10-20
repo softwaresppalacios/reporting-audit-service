@@ -19,7 +19,7 @@ public class PaymentCashClient {
 
   public CashSummary current(UUID tenantId) {
     return restClient.get()
-      .uri("/cash-sessions/current")
+      .uri("/payments/today")
       .header("X-Tenant-Id", tenantId.toString())
       .headers(headers -> {
         String authorization = TenantAccessFilter.currentAuthorization();
