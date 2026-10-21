@@ -5,6 +5,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.core.ParameterizedTypeReference;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -27,6 +32,28 @@ public class ParkingOperationClient {
       .onStatus(HttpStatusCode::isError, (request, response) -> {})
       .body(ParkingSummary.class);
   }
+
+  /** Tickets con entrada en el rango (dias de Colombia). */
+  public List<TicketRow> history(UUID tenantId, LocalDate from, LocalDate to) {
+    return ServiceCalls.call("El servicio de operación", () -> restClient.get()
+      .uri(uri -> uri.path("/tickets/history").queryParam("from", from).queryParam("to", to).build())
+      .headers(headers -> ServiceCalls.userHeaders(headers, tenantId))
+      .retrieve()
+      .onStatus(HttpStatusCode::isError, ServiceCalls.propagate("El servicio de operación"))
+      .body(new ParameterizedTypeReference<List<TicketRow>>() {}));
+  }
+
+  public record TicketRow(
+    UUID uuid,
+    String plate,
+    String vehicleType,
+    boolean monthlySubscription,
+    Instant checkedInAt,
+    Instant checkedOutAt,
+    String status,
+    BigDecimal amountDue,
+    String paymentMethod
+  ) {}
 
   public record ParkingSummary(
     long activeTickets,

@@ -9,19 +9,20 @@ spring:
     password: ${DB_PASSWORD:root}
   jpa:
     hibernate:
-      ddl-auto: none
+      # Crea y actualiza la tabla de auditoria (audit_log).
+      ddl-auto: update
     properties:
       hibernate:
         default_schema: reporting_audit_service
         format_sql: true
+  sql:
+    init:
+      mode: always
 clients:
   parking-operation-service:
     url: ${PARKING_OPERATION_SERVICE_URL:http://localhost:8082/api}
   payment-cash-service:
     url: ${PAYMENT_CASH_SERVICE_URL:http://localhost:8084/api}
-  sql:
-    init:
-      mode: always
 services:
   tenant-management:
     base-url: ${TENANT_SERVICE_URL:http://localhost:8081/api}

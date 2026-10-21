@@ -32,6 +32,7 @@ public class TenantAccessFilter extends OncePerRequestFilter {
   public static final String TENANT_HEADER = "X-Tenant-Id";
   public static final String USER_ATTRIBUTE = "auth.userUuid";
   public static final String ROLE_ATTRIBUTE = "auth.role";
+  public static final String USER_NAME_ATTRIBUTE = "auth.userName";
 
   private final SessionClient sessionClient;
   private final ObjectMapper objectMapper;
@@ -59,6 +60,7 @@ public class TenantAccessFilter extends OncePerRequestFilter {
         .orElseThrow(() -> new ResponseStatusException(FORBIDDEN, "No tienes acceso a este parqueadero"));
       request.setAttribute(USER_ATTRIBUTE, session.user().uuid());
       request.setAttribute(ROLE_ATTRIBUTE, role);
+      request.setAttribute(USER_NAME_ATTRIBUTE, session.user().fullName());
     } catch (ResponseStatusException ex) {
       reject(response, ex);
       return;
