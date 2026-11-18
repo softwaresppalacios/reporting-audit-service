@@ -20,6 +20,10 @@ public class DashboardService {
       parking == null ? 0 : parking.activeTickets(),
       parking == null ? 0 : parking.occupiedSpaces(),
       parking == null ? 0 : parking.availableSpaces(),
+      parking == null ? 0 : parking.carOccupiedSpaces(),
+      parking == null ? 0 : parking.carAvailableSpaces(),
+      parking == null ? 0 : parking.motorcycleOccupiedSpaces(),
+      parking == null ? 0 : parking.motorcycleAvailableSpaces(),
       cash == null || cash.todayRevenue() == null ? BigDecimal.ZERO : cash.todayRevenue()
     );
   }
