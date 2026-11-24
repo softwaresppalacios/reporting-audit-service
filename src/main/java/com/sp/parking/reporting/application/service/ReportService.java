@@ -105,8 +105,12 @@ public class ReportService {
     return rows;
   }
 
+  /** Los 4 tipos basicos primero y despues los que agrego el parqueadero (o ya elimino) que tengan movimientos. */
   private List<TypeRow> byType(List<TicketRow> tickets, List<PaymentRow> payments) {
-    return TYPES.stream()
+    Set<String> types = new LinkedHashSet<>(TYPES);
+    tickets.stream().map(TicketRow::vehicleType).filter(Objects::nonNull).forEach(types::add);
+    payments.stream().map(PaymentRow::vehicleType).filter(Objects::nonNull).forEach(types::add);
+    return types.stream()
       .map(type -> new TypeRow(
         type,
         tickets.stream().filter(ticket -> type.equals(ticket.vehicleType())).count(),
